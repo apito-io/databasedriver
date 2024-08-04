@@ -3,9 +3,10 @@ package badger
 import (
 	"context"
 	"encoding/json"
-
+	"errors"
 	"github.com/apito-io/buffers/protobuff"
 	"github.com/apito-io/buffers/shared"
+	"github.com/apito-io/databasedriver/utility"
 	"github.com/dgraph-io/badger/v3"
 	"github.com/google/uuid"
 )
@@ -93,7 +94,7 @@ func (b *BadgerDriver) ListFunctions(ctx context.Context, param *shared.CommonSy
 	}
 
 	if doc.Schema == nil {
-		return nil, ae.SchemaIsNil
+		return nil, errors.New("schema is required")
 	}
 
 	return &shared.SearchResponse[protobuff.CloudFunction]{
@@ -109,7 +110,7 @@ func (b *BadgerDriver) DeleteWebhook(ctx context.Context, projectId, hookId stri
 func (b *BadgerDriver) SearchUsers(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.SystemUser], error) {
 
 	var users []*protobuff.SystemUser
-	err = b.Db.View(func(txn *badger.Txn) error {
+	err := b.Db.View(func(txn *badger.Txn) error {
 
 		opts := badger.DefaultIteratorOptions
 		opts.PrefetchSize = 30 // for user search its perfect

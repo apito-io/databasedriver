@@ -13,17 +13,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type PostgreSQLDriver struct {
+type PostgresSQLDriver struct {
 	Gorm             *gorm.DB
 	DriverCredential *protobuff.DriverCredentials
 }
 
-func (p PostgreSQLDriver) GetSystemUserByUsername(ctx context.Context, username string) (*protobuff.SystemUser, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func GetSystemSQLDriver(driverCredentials *protobuff.DriverCredentials) (*PostgreSQLDriver, error) {
+func GetSystemSQLDriver(driverCredentials *protobuff.DriverCredentials) (*PostgresSQLDriver, error) {
 
 	var gormDB *gorm.DB
 	var err error
@@ -45,20 +40,20 @@ func GetSystemSQLDriver(driverCredentials *protobuff.DriverCredentials) (*Postgr
 		return nil, err
 	}
 
-	return &PostgreSQLDriver{Gorm: gormDB, DriverCredential: driverCredentials}, nil
+	return &PostgresSQLDriver{Gorm: gormDB, DriverCredential: driverCredentials}, nil
 }
 
-func (p PostgreSQLDriver) SearchResource(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[any], error) {
+func (p *PostgresSQLDriver) SearchResource(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[any], error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (p PostgreSQLDriver) FindOrganizationAdmin(ctx context.Context, orgId string) (*protobuff.SystemUser, error) {
+func (p *PostgresSQLDriver) FindOrganizationAdmin(ctx context.Context, orgId string) (*protobuff.SystemUser, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (p PostgreSQLDriver) GetOrganizations(ctx context.Context, userId string) (*shared.SearchResponse[protobuff.Organization], error) {
+func (p *PostgresSQLDriver) GetOrganizations(ctx context.Context, userId string) (*shared.SearchResponse[protobuff.Organization], error) {
 	//TODO implement me
 	panic("implement me")
 }
@@ -131,7 +126,7 @@ type Project struct {
 	Limits             *UsagesTracking    `gorm:"foreignKey:ProjectID" protobuf:"bytes,18,opt,name=limits,proto3" json:"limits,omitempty" firestore:"limits,omitempty"`
 }
 
-func (p PostgreSQLDriver) RunMigration() error {
+func (p *PostgresSQLDriver) RunMigration() error {
 
 	err := p.Gorm.AutoMigrate(Project{}, UsagesTracking{}, DriverCredentials{}, APIToken{}, AddOnsDetails{})
 	if err != nil {
@@ -139,4 +134,9 @@ func (p PostgreSQLDriver) RunMigration() error {
 	}
 
 	return nil
+}
+
+func (p *PostgresSQLDriver) GetSystemUserByUsername(ctx context.Context, username string) (*protobuff.SystemUser, error) {
+	//TODO implement me
+	panic("implement me")
 }

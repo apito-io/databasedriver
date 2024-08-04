@@ -13,57 +13,40 @@ import (
 	strip "github.com/grokify/html-strip-tags-go"
 	"github.com/tailor-inc/graphql"
 	"google.golang.org/api/iterator"
-	"google.golang.org/api/option"
 )
 
 type FireStoreDriver struct {
 	Db *firestore.Client
 }
 
-func (a *FireStoreDriver) RunMigration(ctx context.Context, projectId string) error {
+func (f *FireStoreDriver) RunMigration(ctx context.Context, projectId string) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (a *FireStoreDriver) DuplicateModel(ctx context.Context, project *protobuff.Project, modelName, newName string) (*protobuff.ProjectSchema, error) {
+func (f *FireStoreDriver) DuplicateModel(ctx context.Context, project *protobuff.Project, modelName, newName string) (*protobuff.ProjectSchema, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (a *FireStoreDriver) GetProjectUsers(ctx context.Context, projectId string, keys []string) (map[string]*shared.DefaultDocumentStructure, error) {
+func (f *FireStoreDriver) GetProjectUsers(ctx context.Context, projectId string, keys []string) (map[string]*shared.DefaultDocumentStructure, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DeleteMediaFile(ctx context.Context, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) DeleteMediaFile(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func GetFirestoreDriver(engine *protobuff.DriverCredentials) (*FireStoreDriver, error) {
-
-	// Sets your Google Cloud Platform project ID.
-	projectID := engine.ProjectID
-
-	ctx := context.Background()
-	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsJSON([]byte(engine.FirebaseProjectCredentialJson)))
-	if err != nil {
-		return nil, err
-	}
-	// Close client when done with
-	// defer client.Close()
-
-	return &FireStoreDriver{Db: client}, nil
-}
-
-func (f FireStoreDriver) CheckCollectionExists(ctx context.Context, projectId string) (bool, error) {
+func (f *FireStoreDriver) CheckCollectionExists(ctx context.Context, projectId string) (bool, error) {
 	// one firebase on project so project collection check is not necessary
 	return true, nil
 }
 
-func (f FireStoreDriver) TransferProject(ctx context.Context, userId, from, to string) error {
+func (f *FireStoreDriver) TransferProject(ctx context.Context, userId, from, to string) error {
 	return nil
 }
 
-func (f FireStoreDriver) AddCollection(ctx context.Context, projectName string) (*string, error) {
+func (f *FireStoreDriver) AddCollection(ctx context.Context, projectName string) (*string, error) {
 	val, err := f.Db.Collection(projectName).Limit(1).Snapshots(ctx).Next()
 	if err != nil {
 		return nil, err
@@ -74,7 +57,7 @@ func (f FireStoreDriver) AddCollection(ctx context.Context, projectName string) 
 	return &projectName, nil
 }
 
-func (f FireStoreDriver) AddModel(ctx context.Context, project *protobuff.Project, name string, singleRecord bool) (*protobuff.ProjectSchema, error) {
+func (f *FireStoreDriver) AddModel(ctx context.Context, project *protobuff.Project, name string, singleRecord bool) (*protobuff.ProjectSchema, error) {
 	modelType := &protobuff.ModelType{
 		Name: name,
 	}
@@ -112,7 +95,7 @@ func (f FireStoreDriver) AddModel(ctx context.Context, project *protobuff.Projec
 	return project.Schema, nil
 }
 
-func (f FireStoreDriver) AddFieldToModel(ctx context.Context, param shared.CommonSystemParams, isUpdate bool, repeatedGroupIdentifier *string) (*protobuff.ModelType, error) {
+func (f *FireStoreDriver) AddFieldToModel(ctx context.Context, param shared.CommonSystemParams, isUpdate bool, repeatedGroupIdentifier *string) (*protobuff.ModelType, error) {
 	if repeatedGroupIdentifier == nil && isUpdate {
 		param.Model.Fields = append(param.Model.Fields, param.FieldInfo)
 	} else if repeatedGroupIdentifier != nil {
@@ -137,63 +120,63 @@ func (f FireStoreDriver) AddFieldToModel(ctx context.Context, param shared.Commo
 	return param.Model, nil
 }
 
-func (f FireStoreDriver) AddRelationFields(ctx context.Context, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
+func (f *FireStoreDriver) AddRelationFields(ctx context.Context, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) ConnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) ConnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DisconnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) DisconnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) AddAuthAddOns(ctx context.Context, project *protobuff.Project, auth map[string]interface{}) error {
+func (f *FireStoreDriver) AddAuthAddOns(ctx context.Context, project *protobuff.Project, auth map[string]interface{}) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetProjectUser(ctx context.Context, phone, email, projectId string) (*shared.DefaultDocumentStructure, error) {
+func (f *FireStoreDriver) GetProjectUser(ctx context.Context, phone, email, projectId string) (*shared.DefaultDocumentStructure, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetLoggedInProjectUser(ctx context.Context, param *shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
+func (f *FireStoreDriver) GetLoggedInProjectUser(ctx context.Context, param *shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DeleteDocumentRelation(ctx context.Context, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) DeleteDocumentRelation(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DeleteDocumentsFromProject(ctx context.Context, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) DeleteDocumentsFromProject(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DropField(ctx context.Context, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) DropField(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DropConnections(ctx context.Context, projectId string, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
+func (f *FireStoreDriver) DropConnections(ctx context.Context, projectId string, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) RenameModel(ctx context.Context, project *protobuff.Project, modelName, newName string) error {
+func (f *FireStoreDriver) RenameModel(ctx context.Context, project *protobuff.Project, modelName, newName string) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) ConvertModel(ctx context.Context, project *protobuff.Project, modelName string) error {
+func (f *FireStoreDriver) ConvertModel(ctx context.Context, project *protobuff.Project, modelName string) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) RenameField(ctx context.Context, oldFiledName string, repeatedGroup *string, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) RenameField(ctx context.Context, oldFiledName string, repeatedGroup *string, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetSystemUser(ctx context.Context, id string) (*protobuff.SystemUser, error) {
+func (f *FireStoreDriver) GetSystemUser(ctx context.Context, id string) (*protobuff.SystemUser, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetProject(ctx context.Context, id string) (*protobuff.Project, error) {
+func (f *FireStoreDriver) GetProject(ctx context.Context, id string) (*protobuff.Project, error) {
 
 	var project protobuff.Project
 	iter, err := f.Db.Collection("projects").Doc(id).Get(ctx)
@@ -207,51 +190,51 @@ func (f FireStoreDriver) GetProject(ctx context.Context, id string) (*protobuff.
 	return &project, nil
 }
 
-func (f FireStoreDriver) ListProjects(ctx context.Context, userId string) ([]*protobuff.Project, error) {
+func (f *FireStoreDriver) ListProjects(ctx context.Context, userId string) ([]*protobuff.Project, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetSingleProjectDocumentBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
+func (f *FireStoreDriver) GetSingleProjectDocumentBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetSingleProjectDocument(ctx context.Context, param shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
+func (f *FireStoreDriver) GetSingleProjectDocument(ctx context.Context, param shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetSingleProjectDocumentRevisions(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DocumentRevisionHistory, error) {
+func (f *FireStoreDriver) GetSingleProjectDocumentRevisions(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DocumentRevisionHistory, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetSingleRawDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) (interface{}, error) {
+func (f *FireStoreDriver) GetSingleRawDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) (interface{}, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetAllRelationDocumentsOfSingleDocument(ctx context.Context, from string, arg *shared.CommonSystemParams) (interface{}, error) {
+func (f *FireStoreDriver) GetAllRelationDocumentsOfSingleDocument(ctx context.Context, from string, arg *shared.CommonSystemParams) (interface{}, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) ListFunctions(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.CloudFunction], error) {
+func (f *FireStoreDriver) ListFunctions(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.CloudFunction], error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) SearchUsers(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.SystemUser], error) {
+func (f *FireStoreDriver) SearchUsers(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.SystemUser], error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) ListMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) ([]*protobuff.FileDetails, error) {
+func (f *FireStoreDriver) ListMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) ([]*protobuff.FileDetails, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) CountMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) (int, error) {
+func (f *FireStoreDriver) CountMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) (int, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) CountMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, previewMode bool) (int, error) {
+func (f *FireStoreDriver) CountMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, previewMode bool) (int, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) QueryMultiDocumentOfProjectBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
+func (f *FireStoreDriver) QueryMultiDocumentOfProjectBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
 
 	var multilineFields []string
 	for _, f := range param.Model.Fields {
@@ -304,7 +287,7 @@ func (f FireStoreDriver) QueryMultiDocumentOfProjectBytes(ctx context.Context, p
 	return []byte{}, nil
 }
 
-func (f FireStoreDriver) QueryMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DefaultDocumentStructure, error) {
+func (f *FireStoreDriver) QueryMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DefaultDocumentStructure, error) {
 
 	var multilineFields []string
 	for _, f := range param.Model.Fields {
@@ -357,85 +340,85 @@ func (f FireStoreDriver) QueryMultiDocumentOfProject(ctx context.Context, param 
 	return docs, nil
 }
 
-func (f FireStoreDriver) AddTeamMetaInfo(ctx context.Context, docs []*protobuff.SystemUser) ([]*protobuff.SystemUser, error) {
+func (f *FireStoreDriver) AddTeamMetaInfo(ctx context.Context, docs []*protobuff.SystemUser) ([]*protobuff.SystemUser, error) {
 	panic("implement me")
 }
 
-func (s FireStoreDriver) AddATeamMemberToProject(ctx context.Context, projectId string, memberData map[string]interface{}) error {
+func (f *FireStoreDriver) AddATeamMemberToProject(ctx context.Context, projectId string, memberData map[string]interface{}) error {
 	panic("implement me")
 }
 
-func (s FireStoreDriver) RemoveATeamMemberFromProject(ctx context.Context, projectId string, memberId string) error {
+func (f *FireStoreDriver) RemoveATeamMemberFromProject(ctx context.Context, projectId string, memberId string) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) CreateMediaDocument(ctx context.Context, projectId string, media *protobuff.FileDetails) (*protobuff.FileDetails, error) {
+func (f *FireStoreDriver) CreateMediaDocument(ctx context.Context, projectId string, media *protobuff.FileDetails) (*protobuff.FileDetails, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) UpdateUser(ctx context.Context, user *protobuff.SystemUser, replace bool) error {
+func (f *FireStoreDriver) UpdateUser(ctx context.Context, user *protobuff.SystemUser, replace bool) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) CheckTokenBlacklisted(ctx context.Context, tokenId string) error {
+func (f *FireStoreDriver) CheckTokenBlacklisted(ctx context.Context, tokenId string) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) BlacklistAToken(ctx context.Context, token map[string]interface{}) error {
+func (f *FireStoreDriver) BlacklistAToken(ctx context.Context, token map[string]interface{}) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) UpdateDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, doc *shared.DefaultDocumentStructure, replace bool) error {
+func (f *FireStoreDriver) UpdateDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, doc *shared.DefaultDocumentStructure, replace bool) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DeleteDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) error {
+func (f *FireStoreDriver) DeleteDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DeleteProject(ctx context.Context, projectId string) error {
+func (f *FireStoreDriver) DeleteProject(ctx context.Context, projectId string) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) CreateRelation(ctx context.Context, projectId string, relation *shared.EdgeRelation) error {
+func (f *FireStoreDriver) CreateRelation(ctx context.Context, projectId string, relation *shared.EdgeRelation) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) DeleteRelation(ctx context.Context, param *shared.ConnectDisconnectParam, id string) error {
+func (f *FireStoreDriver) DeleteRelation(ctx context.Context, param *shared.ConnectDisconnectParam, id string) error {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) NewInsertableRelations(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
+func (f *FireStoreDriver) NewInsertableRelations(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
 	panic("implement me")
 }
 
-func (a *FireStoreDriver) CheckOneToOneRelationExists(ctx context.Context, param *shared.ConnectDisconnectParam) (bool, error) {
+func (f *FireStoreDriver) CheckOneToOneRelationExists(ctx context.Context, param *shared.ConnectDisconnectParam) (bool, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) GetRelationIds(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
+func (f *FireStoreDriver) GetRelationIds(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) RelationshipDataLoaderBytes(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) ([]byte, error) {
+func (f *FireStoreDriver) RelationshipDataLoaderBytes(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) ([]byte, error) {
 	panic("implement me")
 }
-func (f FireStoreDriver) RelationshipDataLoader(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) (interface{}, error) {
-	panic("implement me")
-}
-
-func (f FireStoreDriver) MetaDataLoader(ctx context.Context, projectId string, keys *dataloader.Keys) ([]*dataloader.Result, error) {
+func (f *FireStoreDriver) RelationshipDataLoader(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) (interface{}, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) CountDocOfProjectBytes(ctx context.Context, param *shared.CommonSystemParams) ([]byte, error) {
+func (f *FireStoreDriver) MetaDataLoader(ctx context.Context, projectId string, keys *dataloader.Keys) ([]*dataloader.Result, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) CountDocOfProject(ctx context.Context, param *shared.CommonSystemParams) (interface{}, error) {
+func (f *FireStoreDriver) CountDocOfProjectBytes(ctx context.Context, param *shared.CommonSystemParams) ([]byte, error) {
 	panic("implement me")
 }
 
-func (f FireStoreDriver) UpdateUsages(ctx context.Context, projectId string, bandwidth float64) error {
+func (f *FireStoreDriver) CountDocOfProject(ctx context.Context, param *shared.CommonSystemParams) (interface{}, error) {
+	panic("implement me")
+}
+
+func (f *FireStoreDriver) UpdateUsages(ctx context.Context, projectId string, bandwidth float64) error {
 	panic("implement me")
 }

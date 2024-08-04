@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/apito-io/databasedriver/utility"
 	"reflect"
 	"strconv"
 	"strings"
@@ -723,11 +724,11 @@ func RootResolverMediaQueryBuilder(param *graphql.ResolveParams) (string, error)
 func BuildCombinedMetaQuery(keys dataloader.Keys, param *QueryBuilderParam) ([]byte, error) {
 
 	queries := make(map[string]string)
-	for _, key := range keys {
+	/*for _, key := range keys {
 		meta := key.(*models.ResolverKey).GetMeta()
 		metaUserIDs := []string{meta.CreatedBy.Id, meta.LastModifiedBy.Id}
 		queries[key.String()] = fmt.Sprintf(`(FOR u IN users FILTER u._key in ['%s'] return u)`, strings.Join(metaUserIDs, `','`))
-	}
+	}*/
 
 	query, err := json.Marshal(queries)
 	if err != nil {
