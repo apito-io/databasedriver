@@ -25,7 +25,7 @@ func (S *SqlDriver) RelationshipDataLoaderBytes(ctx context.Context, param *shar
 		return nil, err
 	}
 
-	queryResults := []map[string]interface{}{}
+	var queryResults []map[string]interface{}
 	err = S.ORM.NewRaw(*query).Scan(ctx, &queryResults)
 	if err != nil {
 		return nil, err

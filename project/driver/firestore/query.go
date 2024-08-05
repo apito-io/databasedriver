@@ -52,7 +52,7 @@ func (f *FireStoreDriver) AddCollection(ctx context.Context, projectName string)
 		return nil, err
 	}
 	if val.Size > 0 {
-		return nil, errors.New("Collection Already Exists")
+		return nil, errors.New("collection Already Exists")
 	}
 	return &projectName, nil
 }
