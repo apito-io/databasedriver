@@ -79,7 +79,7 @@ func (f *FireStoreDriver) AddModel(ctx context.Context, project *protobuff.Proje
 		if !found {
 			project.Schema.Models = append(project.Schema.Models, modelType)
 		} else {
-			return nil, errors.New("Model Already Defined")
+			return nil, errors.New("model Already Defined")
 		}
 	}
 
@@ -89,7 +89,7 @@ func (f *FireStoreDriver) AddModel(ctx context.Context, project *protobuff.Proje
 		return nil, err
 	}
 	if val.Size > 0 {
-		return nil, errors.New(fmt.Sprintf("A model with name `%s` Already Exists in Firebase", name))
+		return nil, fmt.Errorf("a model with name `%s` Already Exists in Firebase", name)
 	}
 
 	return project.Schema, nil
