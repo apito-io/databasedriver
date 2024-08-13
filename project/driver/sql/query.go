@@ -344,9 +344,7 @@ func (S *SqlDriver) GetSingleRawDocumentFromProject(ctx context.Context, param s
 			Id:   param.DocumentId,
 			Type: param.Model.Name,
 			Data: map[string]interface{}{},
-			Meta: &protobuff.MetaField{
-				LastModifiedBy: &protobuff.SystemUser{},
-			},
+			Meta: &protobuff.MetaField{},
 		}, nil
 	}
 
