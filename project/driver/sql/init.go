@@ -107,9 +107,7 @@ type Meta struct {
 	CreatedAt time.Time `bun:",notnull,default:current_date" json:"created_at"`
 	UpdatedAt time.Time `bun:",notnull,default:current_date" json:"updated_at"`
 
-	CreatedBy string `bun:",notnull" json:"created_by"`
-	UpdatedBy string `bun:",notnull" json:"updated_by"`
-	Status    string `bun:",notnull" json:"status"`
+	Status string `bun:",notnull" json:"status"`
 }
 
 func (S *SqlDriver) RunMigration(ctx context.Context, projectId string) error {

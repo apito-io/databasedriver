@@ -97,8 +97,6 @@ func (S *SqlDriver) AddCollection(ctx context.Context, projectId string) (*strin
 				doc_id VARCHAR(36) NOT NULL,
 				created_at DATE NOT NULL DEFAULT CURRENT_DATE,
 				updated_at DATE NOT NULL DEFAULT CURRENT_DATE,
-				created_by VARCHAR(36) NOT NULL,
-				updated_by VARCHAR(36),
 				status VARCHAR(36)
 			);`)); err != nil {
 			return nil, err
@@ -133,8 +131,6 @@ func (S *SqlDriver) AddCollection(ctx context.Context, projectId string) (*strin
 				doc_id VARCHAR(36) NOT NULL,
 				created_at DATE NOT NULL DEFAULT (CURRENT_DATE),
 				updated_at DATE NOT NULL DEFAULT (CURRENT_DATE),
-				created_by VARCHAR(36) NOT NULL,
-				updated_by VARCHAR(36),
 				status VARCHAR(35)
 			);`, bun.Ident(projectId)); err != nil {
 			return nil, err
@@ -538,11 +534,9 @@ func (S *SqlDriver) AddDocumentToProject(ctx context.Context, projectId string, 
 
 	// now insert a meta data
 	metaData := map[string]interface{}{
-		"id":         uuid.New().String(),
-		"created_by": doc.Meta.CreatedBy.Id,
-		"updated_by": doc.Meta.LastModifiedBy.Id,
-		"status":     doc.Meta.Status,
-		"doc_id":     doc.Id,
+		"id":     uuid.New().String(),
+		"status": doc.Meta.Status,
+		"doc_id": doc.Id,
 	}
 	_, err = tx.NewInsert().Table("meta").Model(metaData).Exec(ctx)
 	if err != nil {
@@ -622,7 +616,6 @@ func (S *SqlDriver) UpdateDocumentOfProject(ctx context.Context, param shared.Co
 	// now insert a meta data
 	metaData := map[string]interface{}{
 		"updated_at": utility.GetCurrentTime(),
-		"updated_by": param.UserId,
 	}
 
 	_, err = S.ORM.NewUpdate().Table("meta").Where("doc_id = ?", doc.Id).Model(metaData).Exec(ctx)

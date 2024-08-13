@@ -337,7 +337,7 @@ func ReturnAQLObjectBuilder(_var string, isArray bool, isParentArray bool, _map 
 		if v.Value != nil {
 			switch v.FieldType {
 			case "repeated":
-				if !utility.ArrayContains([]string{"data", "meta", "created_by", "last_modified_by"}, k) { // skip for data object
+				if !utility.ArrayContains([]string{"data", "meta"}, k) { // skip for data object
 					_nestedVar := utility.RandomVariableGenerator(4)
 					_returns, err := ReturnAQLObjectBuilder(_nestedVar, true, isArray, v.Value.(map[string]*shared.FieldDetails))
 					if err != nil {
@@ -356,7 +356,7 @@ func ReturnAQLObjectBuilder(_var string, isArray bool, isParentArray bool, _map 
 				}
 				break
 			case "object":
-				if !utility.ArrayContains([]string{"data", "meta", "created_by", "last_modified_by"}, k) { // skip for data object
+				if !utility.ArrayContains([]string{"data", "meta"}, k) { // skip for data object
 					_nestedVar := fmt.Sprintf("%s.`%s`", _var, k)
 					_returns, err := ReturnAQLObjectBuilder(_nestedVar, true, isArray, v.Value.(map[string]*shared.FieldDetails))
 					if err != nil {

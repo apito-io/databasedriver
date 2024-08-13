@@ -356,8 +356,7 @@ func (S *SqlDriver) GetSingleRawDocumentFromProject(ctx context.Context, param s
 	}
 
 	returnType := fmt.Sprintf(`
-	 x.*, y.created_at AS sys_created_at, y.updated_at AS sys_updated_at, 
-		y.created_by AS sys_created_by, y.updated_by AS sys_updated_by, 
+	 x.*, y.created_at AS sys_created_at, y.updated_at AS sys_updated_at,
 		y.status as sys_status
 	`)
 

@@ -42,7 +42,7 @@ var FilterSuffix = map[string]string{
 
 func SelectBuilder(mv string, local string, modelType *protobuff.ModelType, returnCount bool) []string {
 	var returnType []string
-	metaQuery := fmt.Sprintf(`%s.created_at AS sys_created_at, %s.updated_at AS sys_updated_at, %s.created_by AS sys_created_by, %s.updated_by AS sys_updated_by, %s.status as sys_status`, mv, mv, mv, mv, mv)
+	metaQuery := fmt.Sprintf(`%s.created_at AS sys_created_at, %s.updated_at AS sys_updated_at, %s.status as sys_status`, mv, mv, mv)
 	if local != "" {
 		var dataJson []string
 		for _, f := range modelType.Fields {
@@ -251,18 +251,6 @@ func CommonDocTransformation(model *protobuff.ModelType, local string, result ma
 		case "sys_updated_at":
 			t := time.Unix(v.(time.Time).Unix(), 0)
 			doc.Meta.UpdatedAt = t.Format(time.RFC3339)
-			break
-		case "sys_updated_by":
-			id := v.(string)
-			doc.Meta.LastModifiedBy = &protobuff.SystemUser{
-				Id: string(id),
-			}
-			break
-		case "sys_created_by":
-			id := v.(string)
-			doc.Meta.CreatedBy = &protobuff.SystemUser{
-				Id: string(id),
-			}
 			break
 		default:
 			if utility.ArrayContains(classification.MultilineFields, k) {
