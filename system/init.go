@@ -1,13 +1,13 @@
 package system
 
 import (
+	"context"
 	"errors"
-
 	"github.com/apito-io/buffers/interfaces"
 	"github.com/apito-io/buffers/protobuff"
 	"github.com/apito-io/buffers/shared"
 	_const "github.com/apito-io/databasedriver"
-	"github.com/apito-io/databasedriver/system/driver/badger"
+	boltdb "github.com/apito-io/databasedriver/system/driver/bbolt"
 	"github.com/apito-io/databasedriver/system/driver/sql"
 )
 
@@ -32,21 +32,21 @@ func GetSystemDriver(engineConfig *protobuff.DriverCredentials, conf *shared.Com
 	var err error
 
 	switch engineConfig.Engine {
-	case _const.PostgresSQLDriver, _const.MySQLDriver:
+	case _const.SQLiteDriver, _const.MySQLDriver, _const.PostgresSQLDriver, _const.SQLServerDriver:
 		db, err = sql.GetSystemSQLDriver(engineConfig)
 		if err != nil {
 			return nil, err
 		}
 		break
 	case _const.EmbeddedDB:
-		db, err = badger.GetSystemBadgerDriver(engineConfig)
+		db, err = boltdb.GetSystemBoltDriver(engineConfig)
 	default: // default set embedded database
-		db, err = badger.GetSystemBadgerDriver(engineConfig)
+		db, err = boltdb.GetSystemBoltDriver(engineConfig)
 	}
 
 	// run db migration for all the db
 	if db != nil {
-		err = db.RunMigration()
+		err = db.RunMigration(context.Background())
 	}
 
 	if err != nil {

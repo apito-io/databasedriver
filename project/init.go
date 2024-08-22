@@ -15,7 +15,7 @@ func GetProjectDriver(engineConfig *protobuff.DriverCredentials) (interfaces.Pro
 	var err error
 	switch engineConfig.Engine {
 	case _const.SQLiteDriver, _const.MySQLDriver, _const.PostgresSQLDriver, _const.SQLServerDriver:
-		db, err = sql.GetSQLDriver(engineConfig)
+		db, err = sql.GetProjectSQLDriver(engineConfig)
 	case _const.FireStore:
 		db, err = firestore.GetFirestoreDriver(engineConfig)
 	default:

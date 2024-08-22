@@ -9,7 +9,7 @@ type KVBoltDBDriver struct {
 	DB *bolt.DB
 }
 
-func GetKVBadgerDriver() (*KVBoltDBDriver, error) {
+func GetKVBoltDriver() (*KVBoltDBDriver, error) {
 
 	// Open the my.db data file in your current directory.
 	// It will be created if it doesn't exist.

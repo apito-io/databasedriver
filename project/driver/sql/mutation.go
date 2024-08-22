@@ -19,7 +19,7 @@ import (
 	"gorm.io/datatypes"
 )
 
-func (S *SqlDriver) DeleteProject(ctx context.Context, projectId string) error {
+func (S *ProjectSqlDriver) DeleteProject(ctx context.Context, projectId string) error {
 	_, err := S.ORM.Exec(`drop schema ?;`, bun.Ident(projectId))
 	if err != nil {
 		return err
@@ -27,15 +27,15 @@ func (S *SqlDriver) DeleteProject(ctx context.Context, projectId string) error {
 	return nil
 }
 
-func (S *SqlDriver) DeleteMediaFile(ctx context.Context, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) DeleteMediaFile(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("delete media file not implemented")
 }
 
-func (S *SqlDriver) DeleteDocumentRelation(ctx context.Context, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) DeleteDocumentRelation(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("delete document relation not implemented")
 }
 
-func (S *SqlDriver) DropField(ctx context.Context, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) DropField(ctx context.Context, param shared.CommonSystemParams) error {
 
 	tableName := inflection.Plural(param.Model.Name)
 	_, err := S.ORM.Exec(`alter table ? drop column ?;`, bun.Ident(tableName), bun.Ident(param.FieldInfo.Identifier))
@@ -46,31 +46,31 @@ func (S *SqlDriver) DropField(ctx context.Context, param shared.CommonSystemPara
 	return nil
 }
 
-func (S *SqlDriver) RenameModel(ctx context.Context, project *protobuff.Project, modelName, newName string) error {
+func (S *ProjectSqlDriver) RenameModel(ctx context.Context, project *protobuff.Project, modelName, newName string) error {
 	panic("rename model not implemented")
 }
 
-func (S *SqlDriver) ConvertModel(ctx context.Context, project *protobuff.Project, modelName string) error {
+func (S *ProjectSqlDriver) ConvertModel(ctx context.Context, project *protobuff.Project, modelName string) error {
 	panic("rename model not implemented")
 }
 
-func (S *SqlDriver) RenameField(ctx context.Context, oldFieldName string, repeatedGroupIdentifier *string, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) RenameField(ctx context.Context, oldFieldName string, repeatedGroupIdentifier *string, param shared.CommonSystemParams) error {
 	panic("rename field not implemented")
 }
 
-func (S *SqlDriver) DeleteDocumentsFromProject(ctx context.Context, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) DeleteDocumentsFromProject(ctx context.Context, param shared.CommonSystemParams) error {
 	panic("delete documents from project not implemented")
 }
 
-func (S *SqlDriver) RemoveAuthAddOns(ctx context.Context, project *protobuff.Project, option map[string]interface{}) error {
+func (S *ProjectSqlDriver) RemoveAuthAddOns(ctx context.Context, project *protobuff.Project, option map[string]interface{}) error {
 	return nil
 }
 
-func (S *SqlDriver) TransferProject(ctx context.Context, userId, from, to string) error {
+func (S *ProjectSqlDriver) TransferProject(ctx context.Context, userId, from, to string) error {
 	return nil
 }
 
-func (S *SqlDriver) AddCollection(ctx context.Context, projectId string) (*string, error) {
+func (S *ProjectSqlDriver) AddCollection(ctx context.Context, projectId string) (*string, error) {
 
 	tx, err := S.ORM.BeginTx(ctx, &sql.TxOptions{})
 	if err != nil {
@@ -161,12 +161,12 @@ func (S *SqlDriver) AddCollection(ctx context.Context, projectId string) (*strin
 	return &projectId, nil
 }
 
-func (S *SqlDriver) DuplicateModel(ctx context.Context, project *protobuff.Project, modelName, newName string) (*protobuff.ProjectSchema, error) {
+func (S *ProjectSqlDriver) DuplicateModel(ctx context.Context, project *protobuff.Project, modelName, newName string) (*protobuff.ProjectSchema, error) {
 	//TODO implement me
 	panic("duplicate model not implemented")
 }
 
-func (S *SqlDriver) AddModel(ctx context.Context, project *protobuff.Project, name string, singleRecord bool) (*protobuff.ProjectSchema, error) {
+func (S *ProjectSqlDriver) AddModel(ctx context.Context, project *protobuff.Project, name string, singleRecord bool) (*protobuff.ProjectSchema, error) {
 
 	modelType := &protobuff.ModelType{
 		Name: name,
@@ -213,7 +213,7 @@ func (S *SqlDriver) AddModel(ctx context.Context, project *protobuff.Project, na
 	return project.Schema, nil
 }
 
-func (S *SqlDriver) AddRelationFields(ctx context.Context, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
+func (S *ProjectSqlDriver) AddRelationFields(ctx context.Context, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
 
 	toTableName := inflection.Plural(from.Model)
 	fromTableName := inflection.Plural(to.Model)
@@ -277,7 +277,7 @@ func (S *SqlDriver) AddRelationFields(ctx context.Context, from *protobuff.Conne
 	return nil
 }
 
-func (S *SqlDriver) DropConnections(ctx context.Context, projectId string, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
+func (S *ProjectSqlDriver) DropConnections(ctx context.Context, projectId string, from *protobuff.ConnectionType, to *protobuff.ConnectionType) error {
 
 	toTableName := inflection.Plural(from.Model)
 	fromTableName := inflection.Plural(to.Model)
@@ -326,7 +326,7 @@ func (S *SqlDriver) DropConnections(ctx context.Context, projectId string, from 
 	return nil
 }
 
-func (S *SqlDriver) AddFieldToModel(ctx context.Context, param shared.CommonSystemParams, isUpdate bool, repeatedGroupIdentifier *string) (*protobuff.ModelType, error) {
+func (S *ProjectSqlDriver) AddFieldToModel(ctx context.Context, param shared.CommonSystemParams, isUpdate bool, repeatedGroupIdentifier *string) (*protobuff.ModelType, error) {
 
 	if param.FieldInfo.InputType == "geo" {
 		return nil, errors.New("geo Field is currently not supported in PostgresSQL. We will be integrating it soon via extension")
@@ -454,19 +454,19 @@ func (S *SqlDriver) AddFieldToModel(ctx context.Context, param shared.CommonSyst
 	return param.Model, nil
 }
 
-func (S *SqlDriver) AddTeamMetaInfo(ctx context.Context, docs []*protobuff.SystemUser) ([]*protobuff.SystemUser, error) {
+func (S *ProjectSqlDriver) AddTeamMetaInfo(ctx context.Context, docs []*protobuff.SystemUser) ([]*protobuff.SystemUser, error) {
 	panic("add team meta info not implemented")
 }
 
-func (S *SqlDriver) AddATeamMemberToProject(ctx context.Context, projectId string, memberData map[string]interface{}) error {
+func (S *ProjectSqlDriver) AddATeamMemberToProject(ctx context.Context, projectId string, memberData map[string]interface{}) error {
 	panic("add team member to project not implemented")
 }
 
-func (S *SqlDriver) RemoveATeamMemberFromProject(ctx context.Context, projectId string, memberId string) error {
+func (S *ProjectSqlDriver) RemoveATeamMemberFromProject(ctx context.Context, projectId string, memberId string) error {
 	panic("remove a team member from project not implemented")
 }
 
-func (S *SqlDriver) CreateMediaDocument(ctx context.Context, projectId string, media *protobuff.FileDetails) (*protobuff.FileDetails, error) {
+func (S *ProjectSqlDriver) CreateMediaDocument(ctx context.Context, projectId string, media *protobuff.FileDetails) (*protobuff.FileDetails, error) {
 
 	data := map[string]interface{}{
 		"id": media.Id,
@@ -506,7 +506,7 @@ func (S *SqlDriver) CreateMediaDocument(ctx context.Context, projectId string, m
 	return media, nil
 }
 
-func (S *SqlDriver) AddDocumentToProject(ctx context.Context, projectId string, modelName string, doc *shared.DefaultDocumentStructure) (interface{}, error) {
+func (S *ProjectSqlDriver) AddDocumentToProject(ctx context.Context, projectId string, modelName string, doc *shared.DefaultDocumentStructure) (interface{}, error) {
 
 	tx, err := S.ORM.BeginTx(ctx, &sql.TxOptions{})
 	if err != nil {
@@ -551,7 +551,7 @@ func (S *SqlDriver) AddDocumentToProject(ctx context.Context, projectId string, 
 	return doc, nil
 }
 
-func (S *SqlDriver) UpdateDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, doc *shared.DefaultDocumentStructure, replace bool) error {
+func (S *ProjectSqlDriver) UpdateDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, doc *shared.DefaultDocumentStructure, replace bool) error {
 
 	var multilineFields []string
 	var pictureField []string
@@ -626,7 +626,7 @@ func (S *SqlDriver) UpdateDocumentOfProject(ctx context.Context, param shared.Co
 	return nil
 }
 
-func (S *SqlDriver) DeleteDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) DeleteDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) error {
 
 	tableName := inflection.Plural(param.Model.Name)
 
@@ -637,10 +637,10 @@ func (S *SqlDriver) DeleteDocumentFromProject(ctx context.Context, param shared.
 	return nil
 }
 
-func (S *SqlDriver) CreateRelation(ctx context.Context, projectId string, relation *shared.EdgeRelation) error {
+func (S *ProjectSqlDriver) CreateRelation(ctx context.Context, projectId string, relation *shared.EdgeRelation) error {
 	panic("create relation not implemented")
 }
 
-func (S *SqlDriver) DeleteRelation(ctx context.Context, param *shared.ConnectDisconnectParam, id string) error {
+func (S *ProjectSqlDriver) DeleteRelation(ctx context.Context, param *shared.ConnectDisconnectParam, id string) error {
 	panic("delete relation not implemented")
 }

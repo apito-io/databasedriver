@@ -18,7 +18,7 @@ type FieldClassification struct {
 	RepeatedFields  map[string][]*protobuff.FieldInfo
 }
 
-func (S *SqlDriver) RelationshipDataLoaderBytes(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) ([]byte, error) {
+func (S *ProjectSqlDriver) RelationshipDataLoaderBytes(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) ([]byte, error) {
 	// query relations and find all docs
 	query, _, err := BuildCombinedRelationQuery("--removed", "--removed", param)
 	if err != nil {
@@ -103,7 +103,7 @@ func (S *SqlDriver) RelationshipDataLoaderBytes(ctx context.Context, param *shar
 	return []byte{}, nil
 }
 
-func (S *SqlDriver) RelationshipDataLoader(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) (interface{}, error) {
+func (S *ProjectSqlDriver) RelationshipDataLoader(ctx context.Context, param *shared.CommonSystemParams, connection map[string]interface{}) (interface{}, error) {
 	// query relations and find all docs
 	query, _, err := BuildCombinedRelationQuery("--removed", "--removed", param)
 	if err != nil {

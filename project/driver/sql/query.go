@@ -16,11 +16,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func (S *SqlDriver) GetProjectUsers(ctx context.Context, projectId string, keys []string) (map[string]*shared.DefaultDocumentStructure, error) {
+func (S *ProjectSqlDriver) GetProjectUsers(ctx context.Context, projectId string, keys []string) (map[string]*shared.DefaultDocumentStructure, error) {
 	panic("get project users not implemented")
 }
 
-func (S *SqlDriver) CountDocOfProject(ctx context.Context, param *shared.CommonSystemParams) (interface{}, error) {
+func (S *ProjectSqlDriver) CountDocOfProject(ctx context.Context, param *shared.CommonSystemParams) (interface{}, error) {
 	query, err := RootConnectionResolverQueryBuilder(param)
 	if err != nil {
 		return nil, err
@@ -38,7 +38,7 @@ func (S *SqlDriver) CountDocOfProject(ctx context.Context, param *shared.CommonS
 	}, nil
 }
 
-func (S *SqlDriver) CountDocOfProjectBytes(ctx context.Context, param *shared.CommonSystemParams) ([]byte, error) {
+func (S *ProjectSqlDriver) CountDocOfProjectBytes(ctx context.Context, param *shared.CommonSystemParams) ([]byte, error) {
 	query, err := RootConnectionResolverQueryBuilder(param)
 	if err != nil {
 		return nil, err
@@ -52,11 +52,11 @@ func (S *SqlDriver) CountDocOfProjectBytes(ctx context.Context, param *shared.Co
 	return []byte{}, nil
 }
 
-func (S *SqlDriver) AddAuthAddOns(ctx context.Context, project *protobuff.Project, auth map[string]interface{}) error {
+func (S *ProjectSqlDriver) AddAuthAddOns(ctx context.Context, project *protobuff.Project, auth map[string]interface{}) error {
 	panic("add auth addons not implemented")
 }
 
-func (S *SqlDriver) ConnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) ConnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
 	var err error
 	for _, param := range param.ConDisParam {
 		for _, id := range param.ConnectionIds {
@@ -121,15 +121,15 @@ func (S *SqlDriver) ConnectBuilder(ctx context.Context, param shared.CommonSyste
 	return nil
 }
 
-func (S *SqlDriver) DisconnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
+func (S *ProjectSqlDriver) DisconnectBuilder(ctx context.Context, param shared.CommonSystemParams) error {
 	return nil
 }
 
-func (S *SqlDriver) CheckCollectionExists(ctx context.Context, projectId string) (bool, error) {
+func (S *ProjectSqlDriver) CheckCollectionExists(ctx context.Context, projectId string) (bool, error) {
 	return true, nil
 }
 
-func (S *SqlDriver) CheckDBExists(ctx context.Context, projectId string) (bool, error) {
+func (S *ProjectSqlDriver) CheckDBExists(ctx context.Context, projectId string) (bool, error) {
 	var err error
 	var foundDbName string
 
@@ -174,16 +174,16 @@ func (S *SqlDriver) CheckDBExists(ctx context.Context, projectId string) (bool, 
 	return false, nil
 }
 
-func (S *SqlDriver) GetProjectUser(ctx context.Context, phone, email, projectId string) (*shared.DefaultDocumentStructure, error) {
+func (S *ProjectSqlDriver) GetProjectUser(ctx context.Context, phone, email, projectId string) (*shared.DefaultDocumentStructure, error) {
 	panic("get project user not implemented")
 }
 
-func (S *SqlDriver) GetLoggedInProjectUser(ctx context.Context, param *shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
+func (S *ProjectSqlDriver) GetLoggedInProjectUser(ctx context.Context, param *shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
 	panic("get logged in project user")
 }
 
 /* deprecated
-func (S *SqlDriver) GetAllPreviewDocumentsByModel(param shared.CommonSystemParams) ([]*protobuff.PreviewMode, error) {
+func (S *ProjectSqlDriver) GetAllPreviewDocumentsByModel(param shared.CommonSystemParams) ([]*protobuff.PreviewMode, error) {
 	query, err := RootResolverQueryBuilder(param, true)
 	if err != nil {
 		return nil, err
@@ -229,11 +229,11 @@ func (S *SqlDriver) GetAllPreviewDocumentsByModel(param shared.CommonSystemParam
 }
 */
 
-func (S *SqlDriver) GetSingleProjectDocumentRevisions(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DocumentRevisionHistory, error) {
+func (S *ProjectSqlDriver) GetSingleProjectDocumentRevisions(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DocumentRevisionHistory, error) {
 	panic("get single project document revision not implemented")
 }
 
-func (S *SqlDriver) GetSingleProjectDocumentBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
+func (S *ProjectSqlDriver) GetSingleProjectDocumentBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
 
 	var local string
 	if val, ok := param.ResolveParams.Args["local"].(string); ok {
@@ -285,7 +285,7 @@ func (S *SqlDriver) GetSingleProjectDocumentBytes(ctx context.Context, param sha
 	return nil, nil
 }
 
-func (S *SqlDriver) GetSingleProjectDocument(ctx context.Context, param shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
+func (S *ProjectSqlDriver) GetSingleProjectDocument(ctx context.Context, param shared.CommonSystemParams) (*shared.DefaultDocumentStructure, error) {
 
 	var local string
 	if val, ok := param.ResolveParams.Args["local"].(string); ok {
@@ -337,7 +337,7 @@ func (S *SqlDriver) GetSingleProjectDocument(ctx context.Context, param shared.C
 	return doc, nil
 }
 
-func (S *SqlDriver) GetSingleRawDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) (interface{}, error) {
+func (S *ProjectSqlDriver) GetSingleRawDocumentFromProject(ctx context.Context, param shared.CommonSystemParams) (interface{}, error) {
 	if param.SinglePageData {
 		return &shared.DefaultDocumentStructure{
 			Key:  param.DocumentId,
@@ -401,7 +401,7 @@ func (S *SqlDriver) GetSingleRawDocumentFromProject(ctx context.Context, param s
 	return doc, nil
 }
 
-func (S *SqlDriver) GetAllRelationDocumentsOfSingleDocument(ctx context.Context, from string, arg *shared.CommonSystemParams) (interface{}, error) {
+func (S *ProjectSqlDriver) GetAllRelationDocumentsOfSingleDocument(ctx context.Context, from string, arg *shared.CommonSystemParams) (interface{}, error) {
 	// query relations and find all docs
 	arg.DocumentIDs = []string{arg.DocumentId}
 	arg.OnlyReturnCount = true
@@ -468,11 +468,11 @@ func (S *SqlDriver) GetAllRelationDocumentsOfSingleDocument(ctx context.Context,
 	return nil, errors.New("invalid Relation Type")
 }
 
-func (S *SqlDriver) CountMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) (int, error) {
+func (S *ProjectSqlDriver) CountMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) (int, error) {
 	return 0, nil
 }
 
-func (S *SqlDriver) ListMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) ([]*protobuff.FileDetails, error) {
+func (S *ProjectSqlDriver) ListMedias(ctx context.Context, projectId string, param *graphql.ResolveParams) ([]*protobuff.FileDetails, error) {
 	query, err := RootResolverMediaQueryBuilder(param)
 	if err != nil {
 		return nil, err
@@ -496,7 +496,7 @@ func (S *SqlDriver) ListMedias(ctx context.Context, projectId string, param *gra
 	return docs, nil
 }
 
-func (S *SqlDriver) CountMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, previewMode bool) (int, error) {
+func (S *ProjectSqlDriver) CountMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams, previewMode bool) (int, error) {
 
 	query, err := RootResolverQueryBuilder(param, true)
 	if err != nil {
@@ -513,7 +513,7 @@ func (S *SqlDriver) CountMultiDocumentOfProject(ctx context.Context, param share
 
 }
 
-func (S *SqlDriver) QueryMultiDocumentOfProjectBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
+func (S *ProjectSqlDriver) QueryMultiDocumentOfProjectBytes(ctx context.Context, param shared.CommonSystemParams) ([]byte, error) {
 
 	var local string
 	if val, ok := param.ResolveParams.Args["local"].(string); ok {
@@ -562,7 +562,7 @@ func (S *SqlDriver) QueryMultiDocumentOfProjectBytes(ctx context.Context, param 
 	return []byte{}, nil
 }
 
-func (S *SqlDriver) QueryMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DefaultDocumentStructure, error) {
+func (S *ProjectSqlDriver) QueryMultiDocumentOfProject(ctx context.Context, param shared.CommonSystemParams) ([]*shared.DefaultDocumentStructure, error) {
 
 	var local string
 	if val, ok := param.ResolveParams.Args["local"].(string); ok {
@@ -612,14 +612,14 @@ func (S *SqlDriver) QueryMultiDocumentOfProject(ctx context.Context, param share
 	return docs, nil
 }
 
-func (S *SqlDriver) NewInsertableRelations(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
+func (S *ProjectSqlDriver) NewInsertableRelations(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
 	panic("new insertable relations not implemented")
 }
 
-func (S *SqlDriver) CheckOneToOneRelationExists(ctx context.Context, param *shared.ConnectDisconnectParam) (bool, error) {
+func (S *ProjectSqlDriver) CheckOneToOneRelationExists(ctx context.Context, param *shared.ConnectDisconnectParam) (bool, error) {
 	panic("check one to one relation not implemented")
 }
 
-func (S *SqlDriver) GetRelationIds(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
+func (S *ProjectSqlDriver) GetRelationIds(ctx context.Context, param *shared.ConnectDisconnectParam) ([]string, error) {
 	panic("get relations ids not implemented")
 }

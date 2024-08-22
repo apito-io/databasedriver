@@ -7,7 +7,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-func GetFirestoreDriver(engine *protobuff.DriverCredentials) (*FireStoreDriver, error) {
+func GetFirestoreDriver(engine *protobuff.DriverCredentials) (*ProjectFireStoreDriver, error) {
 
 	// Sets your Google Cloud Platform project ID.
 	projectID := engine.ProjectID
@@ -20,5 +20,5 @@ func GetFirestoreDriver(engine *protobuff.DriverCredentials) (*FireStoreDriver, 
 	// Close client when done with
 	// defer client.Close()
 
-	return &FireStoreDriver{Db: client}, nil
+	return &ProjectFireStoreDriver{Db: client}, nil
 }

@@ -19,12 +19,12 @@ import (
 	"github.com/uptrace/bun/driver/pgdriver"
 )
 
-type SqlDriver struct {
+type ProjectSqlDriver struct {
 	ORM              *bun.DB
 	DriverCredential *protobuff.DriverCredentials
 }
 
-func GetSQLDriver(driverCredentials *protobuff.DriverCredentials) (*SqlDriver, error) {
+func GetProjectSQLDriver(driverCredentials *protobuff.DriverCredentials) (*ProjectSqlDriver, error) {
 
 	var orm *bun.DB
 
@@ -97,7 +97,7 @@ func GetSQLDriver(driverCredentials *protobuff.DriverCredentials) (*SqlDriver, e
 		}
 	}
 
-	return &SqlDriver{ORM: orm, DriverCredential: driverCredentials}, nil
+	return &ProjectSqlDriver{ORM: orm, DriverCredential: driverCredentials}, nil
 }
 
 type Meta struct {
@@ -110,7 +110,7 @@ type Meta struct {
 	Status string `bun:",notnull" json:"status"`
 }
 
-func (S *SqlDriver) RunMigration(ctx context.Context, projectId string) error {
+func (S *ProjectSqlDriver) RunMigration(ctx context.Context, projectId string) error {
 	_, err := S.ORM.NewCreateTable().
 		IfNotExists().
 		Model((*Meta)(nil)).

@@ -5,7 +5,7 @@ go 1.22.5
 require (
 	cloud.google.com/go/firestore v1.16.0
 	github.com/JohannesKaufmann/html-to-markdown v1.6.0
-	github.com/apito-io/buffers v0.0.6
+	github.com/apito-io/buffers v0.0.7
 	github.com/dgraph-io/badger/v3 v3.2103.5
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/goccy/go-json v0.10.3

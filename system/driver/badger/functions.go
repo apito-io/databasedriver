@@ -8,7 +8,6 @@ import (
 	"github.com/apito-io/buffers/shared"
 	"github.com/apito-io/databasedriver/utility"
 	"github.com/dgraph-io/badger/v3"
-	"github.com/google/uuid"
 )
 
 const (
@@ -16,20 +15,20 @@ const (
 	UsersCollection   = "users"
 )
 
-func (b *BadgerDriver) GetOrganizations(ctx context.Context, userId string) (*shared.SearchResponse[protobuff.Organization], error) {
+func (b *SystemBadgerDriver) SearchResource(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[any], error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) GetProject(ctx context.Context, id string) (*protobuff.Project, error) {
+func (b *SystemBadgerDriver) GetProject(ctx context.Context, id string) (*protobuff.Project, error) {
 	return getValue[protobuff.Project](b.Db, ProjectCollection, id)
 }
 
-func (b *BadgerDriver) GetSystemUser(ctx context.Context, id string) (*protobuff.SystemUser, error) {
+func (b *SystemBadgerDriver) GetSystemUser(ctx context.Context, id string) (*protobuff.SystemUser, error) {
 	return getValue[protobuff.SystemUser](b.Db, UsersCollection, id)
 }
 
-func (b *BadgerDriver) GetSystemUserByUsername(ctx context.Context, username string) (*protobuff.SystemUser, error) {
+func (b *SystemBadgerDriver) GetSystemUserByUsername(ctx context.Context, username string) (*protobuff.SystemUser, error) {
 	var user *protobuff.SystemUser
 	err := b.Db.View(func(txn *badger.Txn) error {
 
@@ -62,32 +61,32 @@ func (b *BadgerDriver) GetSystemUserByUsername(ctx context.Context, username str
 	return user, nil
 }
 
-func (b *BadgerDriver) CheckProjectName(ctx context.Context, name string) error {
+func (b *SystemBadgerDriver) CheckProjectName(ctx context.Context, name string) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) ListProjects(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.Project], error) {
+func (b *SystemBadgerDriver) ListProjects(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.Project], error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) ListAllProjects(ctx context.Context, userId string) ([]*protobuff.Project, error) {
+func (b *SystemBadgerDriver) ListAllProjects(ctx context.Context, userId string) ([]*protobuff.Project, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) ListAllUsers(ctx context.Context) ([]*protobuff.SystemUser, error) {
+func (b *SystemBadgerDriver) ListAllUsers(ctx context.Context) ([]*protobuff.SystemUser, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) ListTeams(ctx context.Context, projectId string) ([]*protobuff.SystemUser, error) {
+func (b *SystemBadgerDriver) ListTeams(ctx context.Context, projectId string) ([]*protobuff.SystemUser, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) ListFunctions(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.CloudFunction], error) {
+func (b *SystemBadgerDriver) ListFunctions(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.CloudFunction], error) {
 	doc, err := b.GetProject(ctx, param.ProjectId)
 	if err != nil {
 		return nil, err
@@ -102,12 +101,7 @@ func (b *BadgerDriver) ListFunctions(ctx context.Context, param *shared.CommonSy
 	}, nil
 }
 
-func (b *BadgerDriver) DeleteWebhook(ctx context.Context, projectId, hookId string) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (b *BadgerDriver) SearchUsers(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.SystemUser], error) {
+func (b *SystemBadgerDriver) SearchUsers(ctx context.Context, param *shared.CommonSystemParams) (*shared.SearchResponse[protobuff.SystemUser], error) {
 
 	var users []*protobuff.SystemUser
 	err := b.Db.View(func(txn *badger.Txn) error {
@@ -137,53 +131,32 @@ func (b *BadgerDriver) SearchUsers(ctx context.Context, param *shared.CommonSyst
 	}, err
 }
 
-func (b *BadgerDriver) AddSystemUserMetaInfo(ctx context.Context, doc *shared.DefaultDocumentStructure) (*shared.DefaultDocumentStructure, error) {
+func (b *SystemBadgerDriver) AddSystemUserMetaInfo(ctx context.Context, doc *shared.DefaultDocumentStructure) (*shared.DefaultDocumentStructure, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) AddTeamMetaInfo(ctx context.Context, docs []*protobuff.SystemUser) ([]*protobuff.SystemUser, error) {
+func (b *SystemBadgerDriver) AddTeamMetaInfo(ctx context.Context, docs []*protobuff.SystemUser) ([]*protobuff.SystemUser, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) AddATeamMemberToProject(ctx context.Context, projectId string, memberData map[string]interface{}) error {
+func (b *SystemBadgerDriver) AddATeamMemberToProject(ctx context.Context, projectId string, memberData map[string]interface{}) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) RemoveATeamMemberFromProject(ctx context.Context, projectId string, memberID string) error {
+func (b *SystemBadgerDriver) RemoveATeamMemberFromProject(ctx context.Context, projectId string, memberID string) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) GetATeamMemberFromProject(ctx context.Context, projectId string, memberID string) error {
+func (b *SystemBadgerDriver) GetATeamMemberFromProject(ctx context.Context, projectId string, memberID string) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) CreateProject(ctx context.Context, project *protobuff.Project) (*protobuff.Project, error) {
-	project.Locals = []string{"en"}
-	project.CreatedAt = utility.GetCurrentTime()
-	project.UpdatedAt = utility.GetCurrentTime()
-
-	// if starts from example project then transfer the content and model
-	/*if project.ProjectTemplate != "" {
-		return project, b.TransferSchema(ctx, project.ProjectTemplate, project.Id)
-	}*/
-
-	return project, b.setValue(ProjectCollection, project.Id, project)
-}
-
-func (b *BadgerDriver) CreateSystemUser(ctx context.Context, user *protobuff.SystemUser) (*protobuff.SystemUser, error) {
-	user.XKey = uuid.New().String()
-	user.Id = user.XKey
-	user.CreatedAt = utility.GetCurrentTime()
-	user.UpdatedAt = utility.GetCurrentTime()
-	return user, b.setValue(UsersCollection, user.Id, user)
-}
-
-func (b *BadgerDriver) UpdateSystemUser(ctx context.Context, user *protobuff.SystemUser, replace bool) error {
+func (b *SystemBadgerDriver) UpdateSystemUser(ctx context.Context, user *protobuff.SystemUser, replace bool) error {
 	_, err := b.GetSystemUser(ctx, user.Id)
 	if err != nil {
 		return err
@@ -192,7 +165,7 @@ func (b *BadgerDriver) UpdateSystemUser(ctx context.Context, user *protobuff.Sys
 	return b.setValue(UsersCollection, user.Id, user)
 }
 
-func (b *BadgerDriver) UpdateProject(ctx context.Context, project *protobuff.Project, replace bool) error {
+func (b *SystemBadgerDriver) UpdateProject(ctx context.Context, project *protobuff.Project, replace bool) error {
 	_, err := b.GetProject(ctx, project.Id)
 	if err != nil {
 		return err
@@ -201,66 +174,27 @@ func (b *BadgerDriver) UpdateProject(ctx context.Context, project *protobuff.Pro
 	return b.setValue(ProjectCollection, project.Id, project)
 }
 
-func (b *BadgerDriver) CheckTokenBlacklisted(ctx context.Context, tokenId string) error {
+func (b *SystemBadgerDriver) CheckTokenBlacklisted(ctx context.Context, tokenId string) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) BlacklistAToken(ctx context.Context, token map[string]interface{}) error {
+func (b *SystemBadgerDriver) BlacklistAToken(ctx context.Context, token map[string]interface{}) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) DeleteProjectFromSystem(ctx context.Context, projectId string) error {
+func (b *SystemBadgerDriver) DeleteProjectFromSystem(ctx context.Context, projectId string) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) GetSystemUsers(ctx context.Context, keys []string) (map[string]*protobuff.SystemUser, error) {
+func (b *SystemBadgerDriver) GetSystemUsers(ctx context.Context, keys []string) (map[string]*protobuff.SystemUser, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (b *BadgerDriver) SaveRawData(ctx context.Context, collection string, data map[string]interface{}) error {
+func (b *SystemBadgerDriver) SaveRawData(ctx context.Context, collection string, data map[string]interface{}) error {
 	//TODO implement me
 	panic("implement me")
-}
-
-func (b *BadgerDriver) setValue(prefix string, key string, value interface{}) error {
-	return b.Db.Update(func(txn *badger.Txn) error {
-		data, err := json.Marshal(value)
-		if err != nil {
-			return nil
-		}
-		e := badger.NewEntry([]byte(prefix+"_"+key), data)
-		return txn.SetEntry(e)
-	})
-}
-
-func getValue[T any](db *badger.DB, prefix string, key string) (*T, error) {
-	var res T
-	err := db.View(func(txn *badger.Txn) error {
-		item, err := txn.Get([]byte(prefix + "_" + key))
-		if err != nil {
-			return err
-		}
-
-		err = item.Value(func(val []byte) error {
-			return json.Unmarshal(val, &res)
-		})
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-	return &res, err
-}
-
-func filter[T any](filter map[string]interface{}) (*T, error) {
-	var data T
-
-	// using golang reflect iterate through all the fields of T and match
-	//T.field = map key, value
-
-	return &data, nil
 }
