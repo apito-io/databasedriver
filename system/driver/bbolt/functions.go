@@ -76,7 +76,7 @@ func (b *SystemBoltDBDriver) UpdateSystemUser(ctx context.Context, user *protobu
 			return err
 		}
 
-		return bucket.Put([]byte(user.Id), data)
+		return bucket.Put([]byte(user.ID), data)
 	})
 }
 
@@ -123,7 +123,7 @@ func (b *SystemBoltDBDriver) UpdateProject(ctx context.Context, project *protobu
 			return err
 		}
 
-		return bucket.Put([]byte(project.Id), data)
+		return bucket.Put([]byte(project.ID), data)
 	})
 }
 

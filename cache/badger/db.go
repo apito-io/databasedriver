@@ -113,7 +113,7 @@ func (b *CacheDriver) SaveProject(ctx context.Context, project *protobuff.Projec
 		if err != nil {
 			return err
 		}
-		e := badger.NewEntry([]byte(project.Id), data).WithTTL(1 * time.Minute)
+		e := badger.NewEntry([]byte(project.ID), data).WithTTL(1 * time.Minute)
 		err = txn.SetEntry(e)
 		return err
 	})

@@ -5,7 +5,7 @@ go 1.22.5
 require (
 	cloud.google.com/go/firestore v1.16.0
 	github.com/JohannesKaufmann/html-to-markdown v1.6.0
-	github.com/apito-io/buffers v0.0.7
+	github.com/apito-io/buffers v0.0.8
 	github.com/dgraph-io/badger/v3 v3.2103.5
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/goccy/go-json v0.10.3
@@ -16,7 +16,6 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/nitishm/go-rejson/v4 v4.2.0
-	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.6.1
 	github.com/tailor-inc/graphql v0.5.5
 	github.com/uptrace/bun v1.2.1
@@ -26,11 +25,10 @@ require (
 	github.com/uptrace/bun/dialect/sqlitedialect v1.2.1
 	github.com/uptrace/bun/driver/pgdriver v1.2.1
 	github.com/vektah/gqlparser/v2 v2.5.16
+	go.etcd.io/bbolt v1.3.10
 	golang.org/x/crypto v0.25.0
 	google.golang.org/api v0.190.0
 	gorm.io/datatypes v1.2.1
-	gorm.io/driver/mysql v1.5.7
-	gorm.io/driver/postgres v1.5.9
 	gorm.io/gorm v1.25.11
 )
 
@@ -61,10 +59,6 @@ require (
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.13.0 // indirect
 	github.com/graph-gophers/dataloader/v7 v7.1.0 // indirect
-	github.com/jackc/pgpassfile v1.0.0 // indirect
-	github.com/jackc/pgservicefile v0.0.0-20231201235250-de7065d80cb9 // indirect
-	github.com/jackc/pgx/v5 v5.5.5 // indirect
-	github.com/jackc/puddle/v2 v2.2.1 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.12.3 // indirect
 	github.com/labstack/echo/v4 v4.12.0 // indirect
@@ -72,12 +66,12 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	go.etcd.io/bbolt v1.3.10 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
@@ -96,5 +90,7 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240730163845-b1a4ccb954bf // indirect
 	google.golang.org/grpc v1.64.1 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
+	gorm.io/driver/mysql v1.5.7 // indirect
+	gorm.io/driver/postgres v1.5.9 // indirect
 	mellium.im/sasl v0.3.1 // indirect
 )

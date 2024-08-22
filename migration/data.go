@@ -16,7 +16,7 @@ func GetProjectInfo() *protobuff.Project {
 
 	return &protobuff.Project{
 		XKey:        "fitness_app_jh478",
-		Id:          "fitness_app_jh478",
+		ID:          "fitness_app_jh478",
 		Name:        "Fitness App",
 		Description: "A Fitness Tracker App",
 		Locals:      []string{"en"},
@@ -32,12 +32,11 @@ func GetMigrationUserData() []*protobuff.SystemUser {
 
 	return []*protobuff.SystemUser{
 		{
-			Id:               uuid.New().String(),
-			FirstName:        "System Admin",
-			Email:            "admin@apito.io",
-			Username:         "admin",
-			Secret:           string(hash),
-			CurrentProjectId: "fitness_app_jh478",
+			ID:        uuid.New().String(),
+			FirstName: "System Admin",
+			Email:     "admin@apito.io",
+			Username:  "admin",
+			Secret:    string(hash),
 		},
 	}
 }

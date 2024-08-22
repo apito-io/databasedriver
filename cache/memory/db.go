@@ -52,7 +52,7 @@ func (b *CacheDriver) GetProject(ctx context.Context, projectId string) (*protob
 }
 
 func (b *CacheDriver) SaveProject(ctx context.Context, project *protobuff.Project) (*protobuff.Project, error) {
-	b.Cache.Store(project.Id, project)
+	b.Cache.Store(project.ID, project)
 	return project, nil
 }
 

@@ -19,15 +19,15 @@ func (b *SystemBoltDBDriver) createProject(ctx context.Context, project *protobu
 		return project, b.TransferSchema(ctx, project.ProjectTemplate, project.Id)
 	}*/
 
-	return project, b.setValue(ProjectBucket, project.Id, project)
+	return project, b.setValue(ProjectBucket, project.ID, project)
 }
 
 func (b *SystemBoltDBDriver) createSystemUser(ctx context.Context, user *protobuff.SystemUser) (*protobuff.SystemUser, error) {
 	user.XKey = uuid.New().String()
-	user.Id = user.XKey
+	user.ID = user.XKey
 	user.CreatedAt = utility.GetCurrentTime()
 	user.UpdatedAt = utility.GetCurrentTime()
-	return user, b.setValue(UserBucket, user.Id, user)
+	return user, b.setValue(UserBucket, user.ID, user)
 }
 
 func getValue[T any](db *bbolt.DB, bucketName string, key string) (*T, error) {

@@ -157,21 +157,21 @@ func (b *SystemBadgerDriver) GetATeamMemberFromProject(ctx context.Context, proj
 }
 
 func (b *SystemBadgerDriver) UpdateSystemUser(ctx context.Context, user *protobuff.SystemUser, replace bool) error {
-	_, err := b.GetSystemUser(ctx, user.Id)
+	_, err := b.GetSystemUser(ctx, user.ID)
 	if err != nil {
 		return err
 	}
 	user.UpdatedAt = utility.GetCurrentTime()
-	return b.setValue(UsersCollection, user.Id, user)
+	return b.setValue(UsersCollection, user.ID, user)
 }
 
 func (b *SystemBadgerDriver) UpdateProject(ctx context.Context, project *protobuff.Project, replace bool) error {
-	_, err := b.GetProject(ctx, project.Id)
+	_, err := b.GetProject(ctx, project.ID)
 	if err != nil {
 		return err
 	}
 	project.UpdatedAt = utility.GetCurrentTime()
-	return b.setValue(ProjectCollection, project.Id, project)
+	return b.setValue(ProjectCollection, project.ID, project)
 }
 
 func (b *SystemBadgerDriver) CheckTokenBlacklisted(ctx context.Context, tokenId string) error {

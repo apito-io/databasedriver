@@ -19,15 +19,15 @@ func (b *SystemBadgerDriver) createProject(ctx context.Context, project *protobu
 		return project, b.TransferSchema(ctx, project.ProjectTemplate, project.Id)
 	}*/
 
-	return project, b.setValue(ProjectCollection, project.Id, project)
+	return project, b.setValue(ProjectCollection, project.ID, project)
 }
 
 func (b *SystemBadgerDriver) createSystemUser(ctx context.Context, user *protobuff.SystemUser) (*protobuff.SystemUser, error) {
 	user.XKey = uuid.New().String()
-	user.Id = user.XKey
+	user.ID = user.XKey
 	user.CreatedAt = utility.GetCurrentTime()
 	user.UpdatedAt = utility.GetCurrentTime()
-	return user, b.setValue(UsersCollection, user.Id, user)
+	return user, b.setValue(UsersCollection, user.ID, user)
 }
 
 func (b *SystemBadgerDriver) setValue(prefix string, key string, value interface{}) error {
