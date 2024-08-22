@@ -120,7 +120,7 @@ func (b *CacheDriver) SaveProject(ctx context.Context, project *protobuff.Projec
 		return nil, err
 	}
 	ttl, _ := strconv.Atoi(b.cfg.CacheTTL)
-	_, err = b.Db.Set(ctx, project.Id, data, time.Duration(ttl)*time.Second).Result()
+	_, err = b.Db.Set(ctx, project.ID, data, time.Duration(ttl)*time.Second).Result()
 	if err != nil {
 		return nil, err
 	}
